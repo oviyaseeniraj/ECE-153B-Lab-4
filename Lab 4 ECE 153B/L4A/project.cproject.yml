@@ -1,0 +1,63 @@
+project:
+  packs:
+    - pack: Keil::STM32L4xx_DFP
+    - pack: ARM::CMSIS
+    - pack: ARM::CMSIS-NN
+    - pack: ARM::CMSIS-DSP
+  setups:
+    - setup: Options for Target_1
+      processor:
+        trustzone: non-secure
+      debug: "on"
+      misc:
+        - C:
+            - -std=c99
+          C-CPP:
+            - -fno-rtti
+            - -funsigned-char
+            - -fshort-enums
+            - -fshort-wchar
+            - -ffunction-sections
+            - -Weverything
+            - -Wno-packed
+            - -Wno-reserved-id-macro
+            - -Wno-unused-macros
+            - -Wno-documentation-unknown-command
+            - -Wno-documentation
+            - -Wno-license-management
+            - -Wno-parentheses-equality
+          CPP:
+            - -xc++
+            - -std=c++98
+          ASM:
+            - -masm=auto
+          Link:
+            - --map
+            - --load_addr_map_info
+            - --xref
+            - --callgraph
+            - --symbols
+            - --info sizes
+            - --info totals
+            - --info unused
+            - --info veneers
+            - --strict
+            - --summary_stderr
+            - --info summarysizes
+  linker:
+    - script: project_Target_1.sct
+  groups:
+    - group: Source Group 1
+      files:
+        - file: src/LED.c
+        - file: src/LED.h
+        - file: src/main.c
+        - file: src/startup_stm32l476xx.s
+        - file: src/stm32l476xx.h
+        - file: src/SysClock.c
+        - file: src/SysClock.h
+        - file: src/UART.c
+        - file: src/UART.h
+        - file: src/UART_printf.c
+  components:
+    - component: ARM::CMSIS:CORE
